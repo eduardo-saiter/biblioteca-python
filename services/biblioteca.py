@@ -15,7 +15,7 @@ def adicionar_livro(biblioteca):
         ano = int(input('Digite o ano de publicação do livro: '))
     except ValueError:
         print("Ano inválido. Por favor, insira um número inteiro.")
-        #continue
+        return
     livro = {"titulo": titulo.lower(), "autor": autor.lower(), "ano": ano, "disponivel": True}
     biblioteca.append(livro)
     print(f"Livro '{titulo}' adicionado com sucesso!")
@@ -33,10 +33,9 @@ def buscar_livros(biblioteca):
     encontrado = False
     for livro in biblioteca:
         if titulo.lower() in livro['titulo']:
-            mostrar_dados(livro, biblioteca)
             encontrado = True
     
-    else:
+    if not encontrado:
         print("Livro não encontrado.")
         return None
     
@@ -50,7 +49,7 @@ def buscar_livro(biblioteca):
             mostrar_dados(livro, biblioteca)
             encontrado = True
             return livro
-    else:
+    if not encontrado:
         print("Livro não encontrado.")
         return None
       

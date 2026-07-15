@@ -36,8 +36,9 @@ while True:
         listar_livros(biblioteca)
         
     elif opcao == "3":
-        buscar_livro(biblioteca)
-        
+        livro = buscar_livro(biblioteca)
+        mostrar_dados(livro, biblioteca)
+
     elif opcao == '4':
         biblioteca = emprestar_livro(biblioteca)
         salvar_biblioteca(biblioteca)
