@@ -46,7 +46,6 @@ def buscar_livro(biblioteca):
     encontrado = False
     for livro in biblioteca:
         if titulo.lower() in livro['titulo']:
-            mostrar_dados(livro, biblioteca)
             encontrado = True
             return livro
     if not encontrado:
