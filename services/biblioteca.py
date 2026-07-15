@@ -5,6 +5,11 @@ from utils.exibicao import (
 
 def adicionar_livro(biblioteca):
     titulo = input('Digite o nome do livro: ')
+    for livro in biblioteca:
+        if titulo.lower() == livro['titulo']:
+            print("Este Livro já existe na biblioteca")
+            mostrar_dados(livro, biblioteca)
+            return
     autor = input('Digite o autor do livro: ')
     try:
         ano = int(input('Digite o ano de publicação do livro: '))
@@ -22,14 +27,27 @@ def listar_livros(biblioteca):
     for livro in biblioteca:
         mostrar_dados(livro, biblioteca)
 
+def buscar_livros(biblioteca):
+    titulo = input("Digite o título do Livro: ")
+    print(f"Procurando livro '{titulo}'...")
+    encontrado = False
+    for livro in biblioteca:
+        if titulo.lower() in livro['titulo']:
+            mostrar_dados(livro, biblioteca)
+            encontrado = True
+    
+    else:
+        print("Livro não encontrado.")
+        return None
+    
 
 def buscar_livro(biblioteca):
     titulo = input("Digite o título do Livro: ")
     print(f"Procurando livro '{titulo}'...")
     encontrado = False
     for livro in biblioteca:
-        if livro['titulo'] == titulo.lower():
-            print(f"Livro '{titulo}' encontrado!")
+        if titulo.lower() in livro['titulo']:
+            mostrar_dados(livro, biblioteca)
             encontrado = True
             return livro
     else:

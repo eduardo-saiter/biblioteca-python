@@ -5,6 +5,8 @@ from services.biblioteca import (
     devolver_livro,
     listar_livros,
     buscar_livro,
+    buscar_livros,
+    
 
 )
 
@@ -28,31 +30,25 @@ while True:
 
     if opcao == "1":
         biblioteca = adicionar_livro(biblioteca)
-        salvar_biblioteca(biblioteca)
 
     elif opcao == "2":
         listar_livros(biblioteca)
         
     elif opcao == "3":
-        livro = buscar_livro(biblioteca)
-        mostrar_dados(livro, biblioteca)
+        buscar_livro(biblioteca)
         
     elif opcao == '4':
         biblioteca = emprestar_livro(biblioteca)
-        salvar_biblioteca(biblioteca)
 
     elif opcao == '5':
         biblioteca = devolver_livro(biblioteca)
-        salvar_biblioteca(biblioteca)
 
 
     elif opcao == "6":
         biblioteca = excluir_livro(biblioteca)
-        salvar_biblioteca(biblioteca)
         
     elif opcao == "7":
         print("Saindo do sistema...")
-        salvar_biblioteca(biblioteca)
         break
         
     else:
