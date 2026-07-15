@@ -30,6 +30,7 @@ while True:
 
     if opcao == "1":
         biblioteca = adicionar_livro(biblioteca)
+        salvar_biblioteca(biblioteca)
 
     elif opcao == "2":
         listar_livros(biblioteca)
@@ -39,13 +40,16 @@ while True:
         
     elif opcao == '4':
         biblioteca = emprestar_livro(biblioteca)
+        salvar_biblioteca(biblioteca)
 
     elif opcao == '5':
         biblioteca = devolver_livro(biblioteca)
+        salvar_biblioteca(biblioteca)
 
 
     elif opcao == "6":
         biblioteca = excluir_livro(biblioteca)
+        salvar_biblioteca(biblioteca)
         
     elif opcao == "7":
         print("Saindo do sistema...")
