@@ -8,15 +8,23 @@ O projeto é executado pelo terminal e permite cadastrar, consultar e gerenciar 
 
 ---
 
-## ✨ Funcionalidades
+## 📌 Versões
 
-- Adicionar livros
-- Listar todos os livros
-- Buscar livros por título
-- Emprestar livros
-- Devolver livros
-- Excluir livros
-- Armazenamento permanente em arquivo JSON
+### v1.0.0
+
+Primeira versão estável do sistema.
+
+---
+
+#### Funcionalidades
+
+- Cadastro de livros
+- Busca parcial por título
+- Empréstimo
+- Devolução
+- Exclusão
+- Persistência em JSON
+- Organização em módulos
 
 ---
 
@@ -126,3 +134,4 @@ Durante o desenvolvimento deste sistema pratiquei:
 Este projeto foi desenvolvido para praticar conceitos fundamentais de Python, incluindo estruturas de dados, funções, manipulação de arquivos, módulos e organização de projetos.
 
 O objetivo é evoluí-lo gradualmente conforme avanço nos estudos, incorporando conceitos como Programação Orientada a Objetos, banco de dados, APIs REST e agentes de Inteligência Artificial.
+
