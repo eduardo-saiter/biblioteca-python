@@ -1,94 +1,76 @@
-# 📚 Sistema de Controle de Biblioteca
+# 📚 Biblioteca
+
+Sistema de gerenciamento de biblioteca desenvolvido em Python durante meus estudos do curso **Python for Everybody (Py4E)**.
+
+O projeto evoluiu de uma aplicação baseada em JSON para uma arquitetura orientada a objetos utilizando **SQLite** para persistência dos dados.
+
+---
 
 **Status:** 🚧 Em desenvolvimento
 
-Um sistema de gerenciamento de biblioteca desenvolvido em Python durante meus estudos com o curso **Python for Everybody (Py4E)**.
+---
 
-O projeto é executado pelo terminal e permite cadastrar, consultar e gerenciar empréstimos de livros, utilizando arquivos JSON para persistência dos dados.
+## 🚀 Funcionalidades
+
+- 📖 Cadastro de livros
+- 🔍 Busca por título
+- 📚 Listagem do catálogo
+- ✏️ Atualização de disponibilidade
+- 🗑️ Remoção de livros
+- 💾 Persistência em SQLite
+- 🧱 Arquitetura em camadas (Model, Repository e Service)
 
 ---
 
-## 📌 Versões
+## 🏗️ Estrutura do projeto
 
-### v1.0.0
-
-Primeira versão estável do sistema.
-
----
-
-#### Funcionalidades
-
-- Cadastro de livros
-- Busca parcial por título
-- Empréstimo
-- Devolução
-- Exclusão
-- Persistência em JSON
-- Organização em módulos
-
----
-
-## 📁 Estrutura do Projeto
-
-```text
+```
 Biblioteca/
 │
-├── main.py
-├── biblioteca.json
-├── README.md
+├── database/
+│   ├── database.py
+│   └── biblioteca.db
+│
+├── models/
+│   └── livro.py
+│
+├── repository/
+│   └── livro_repository.py
 │
 ├── services/
-│   ├── biblioteca.py
-│   ├── persistencia.py
-│   └── __init__.py
+│   └── biblioteca_services.py
 │
-└── utils/
-    ├── exibicao.py
-    └── __init__.py
+├── utils/
+│   ├── exibicao.py
+│   ├── menu.py
+│   └── validacoes.py
+│
+├── main.py
+└── README.md
 ```
 
-### main.py
-
-Responsável pelo menu principal e pelo fluxo da aplicação.
-
-### services/
-
-Contém toda a lógica do sistema.
-
-- **biblioteca.py** → operações sobre os livros
-- **persistencia.py** → leitura e escrita do arquivo JSON
-
-### utils/
-
-Funções auxiliares para exibição das informações no terminal.
-
-### biblioteca.json
-
-Arquivo responsável por armazenar todos os livros cadastrados.
-
 ---
 
-## 💻 Tecnologias utilizadas
+## 🛠️ Tecnologias utilizadas
 
 - Python 3
-- JSON
-- Programação estruturada
-- Manipulação de arquivos
+- SQLite3
+- Programação Orientada a Objetos (OOP)
 
 ---
 
-## 🚀 Como executar
+## ▶️ Como executar
 
 Clone o repositório:
 
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/eduardo-saiter/biblioteca-python.git
 ```
 
 Entre na pasta:
 
 ```bash
-cd Biblioteca
+cd biblioteca-python
 ```
 
 Execute:
@@ -97,41 +79,66 @@ Execute:
 python main.py
 ```
 
+Na primeira execução, o banco de dados será criado automaticamente caso não exista.
+
 ---
 
-## 📖 O que aprendi neste projeto
+## 📌 Arquitetura
 
-Durante o desenvolvimento deste sistema pratiquei:
+O projeto foi dividido em responsabilidades:
 
-- Estruturas de repetição
-- Condicionais
-- Listas
-- Dicionários
-- Tuplas
-- Funções
+- **Model** → representa a entidade `Livro`
+- **Repository** → acesso ao banco de dados
+- **Service** → regras de negócio
+- **Utils** → menus e exibição
+- **Database** → conexão e inicialização do SQLite
+
+---
+
+## 📈 Evolução
+
+### ✅ v1.0.0
+
+- Persistência em JSON
+- CRUD completo
+- Busca de livros
+- Empréstimo e devolução
+
+### 🚀 v2.0.0
+
+- Migração completa para SQLite
+- Introdução à Programação Orientada a Objetos
+- Criação da classe `Livro`
+- Separação em camadas (Repository / Service / Model)
+- Melhor organização do projeto
+- Banco criado automaticamente na inicialização
+
+---
+
+## 🎯 Próximos objetivos (v2.1)
+
+- Melhorar a validação de entradas
+- Retornar objetos `Livro` em todas as consultas
+- Permitir buscas mais avançadas
+- Refatoração de código e redução de duplicação
+- Testes automatizados
+
+---
+
+## 📚 Aprendizados
+
+Este projeto faz parte da minha jornada de estudos em Python e acompanha minha evolução durante o curso **Python for Everybody (Py4E)**.
+
+O objetivo é aplicar na prática conceitos como:
+
+- Programação Orientada a Objetos
+- SQLite
 - Organização de projetos
-- Módulos
-- Persistência de dados com JSON
-- Tratamento de exceções (`try/except`)
-- List Comprehension
+- Boas práticas de desenvolvimento
+- Versionamento com Git e GitHub
 
 ---
 
-## 🔨 Melhorias futuras
+## 📄 Licença
 
-- [ ] Pesquisa por autor
-- [ ] Edição de livros
-- [ ] Identificador único (ID) para cada livro
-- [ ] Banco de dados SQLite
-- [ ] Interface gráfica ou Web
-- [ ] API utilizando FastAPI
-- [ ] Integração com um agente de IA
-
----
-
-## 🎯 Objetivo
-
-Este projeto foi desenvolvido para praticar conceitos fundamentais de Python, incluindo estruturas de dados, funções, manipulação de arquivos, módulos e organização de projetos.
-
-O objetivo é evoluí-lo gradualmente conforme avanço nos estudos, incorporando conceitos como Programação Orientada a Objetos, banco de dados, APIs REST e agentes de Inteligência Artificial.
-
+Projeto desenvolvido para fins de estudo.
