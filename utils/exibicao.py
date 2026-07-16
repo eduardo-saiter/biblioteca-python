@@ -9,11 +9,11 @@ def mostrar_menu():
     print("6. Excluir Livro")
     print("7. Sair")
 
-def mostrar_dados(livro, biblioteca):
-    print(f'Título: {livro['titulo'].capitalize()}')
-    print(f'Autor: {livro['autor'].capitalize()}')
-    print(f'Ano: {livro['ano']}')
-    if livro['disponivel']:
+def mostrar_dados(livro):
+    print(f'Título: {livro.titulo.capitalize()}')
+    print(f'Autor: {livro.autor.capitalize()}')
+    print(f'Ano: {livro.ano}')
+    if livro.disponivel:
         print("Disponível : Sim")
     else:
         print('Disponível: Não')

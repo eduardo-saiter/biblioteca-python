@@ -1,60 +1,46 @@
-from services.biblioteca import (
-    adicionar_livro,
-    excluir_livro,
-    emprestar_livro,
-    devolver_livro,
-    listar_livros,
-    buscar_livro,
-    buscar_livros,
-    
-
+from database.database import (
+    inicializar_banco,
+    conectar
 )
 
-from services.persistencia import (
-    carregar_biblioteca,
-    salvar_biblioteca,
-)
+from repository.livro_repository import LivroRepository
+from services.biblioteca_services import BibliotecaService
+from utils.exibicao import mostrar_menu
 
-from utils.exibicao import (
-    mostrar_menu,
-    mostrar_dados,
-)
+conn = conectar()
+inicializar_banco(conn)
 
-biblioteca = carregar_biblioteca()
+repositorio = LivroRepository(conn)
+service = BibliotecaService(repositorio)
 
 while True:
 
     mostrar_menu()
 
-    opcao = input("Escolha uma opção: ")
+    opcao = input("> ")
 
     if opcao == "1":
-        biblioteca = adicionar_livro(biblioteca)
-        salvar_biblioteca(biblioteca)
+        service.adicionar_livro()
 
     elif opcao == "2":
-        listar_livros(biblioteca)
-        
+        service.catalogo_biblioteca()
+
     elif opcao == "3":
-        livro = buscar_livro(biblioteca)
-        mostrar_dados(livro, biblioteca)
+        service.buscar_livro()
 
     elif opcao == '4':
-        biblioteca = emprestar_livro(biblioteca)
-        salvar_biblioteca(biblioteca)
+        service.emprestar_livro()
 
     elif opcao == '5':
-        biblioteca = devolver_livro(biblioteca)
-        salvar_biblioteca(biblioteca)
-
+        service.devolver_livro()
 
     elif opcao == "6":
-        biblioteca = excluir_livro(biblioteca)
-        salvar_biblioteca(biblioteca)
-        
+        service.excluir_livro()
+
     elif opcao == "7":
         print("Saindo do sistema...")
+        conn.close()
         break
-        
+
     else:
         print("Opção inválida. Tente novamente.")
