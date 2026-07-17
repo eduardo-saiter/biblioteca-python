@@ -1,37 +1,36 @@
+import sqlite3
 from models.livro import Livro
 
-class LivroRepository():
+class LivroRepository:
 
-    def __init__(self, conn):
+    def __init__(self, conn: sqlite3.Connection) -> None:
         self.conn = conn
         self.cur = conn.cursor()
 
-    def listar_biblioteca(self):
+    def listar_biblioteca(self) -> list[Livro]:
         self.cur.execute('SELECT * FROM Livros')
         rows = self.cur.fetchall()
-        if rows is not None:
-            return [Livro(*row) for row in rows]
-        else:
-            return None
-    
-    def listar_titulos(self,busca):
-        row = self.cur.execute('SELECT * FROM Livros GROUP BY titulo=?',(busca))
-        if row is not None:
-            return Livro(*row)
-        else:
-            return None
+        return [Livro(*row) for row in rows]
 
-    def existe_titulo(self, busca):
-        self.cur.execute('SELECT * FROM livros WHERE titulo= ?', (busca,))
-        return self.cur.fetchone()
+    def existe_titulo(self, busca: str) -> bool:
+        self.cur.execute('SELECT * FROM livros WHERE titulo= ?', (busca.strip().lower(),))
+        return self.cur.fetchone() is not None
 
-    def buscar_titulo(self, busca):
-        row = self.existe_titulo(busca)
+    def buscar_titulo(self, busca: str) -> Livro | None:
+        self.cur.execute(
+            '''
+            SELECT id, titulo, autor, ano, disponivel
+            FROM livros
+            WHERE titulo = ?
+            ''',
+            (busca.strip().lower(),)
+        )
+        row = self.cur.fetchone()
         if row is None:
             return None
         return Livro(*row)
 
-    def inserir(self, livro):
+    def inserir(self, livro: Livro) -> None:
         self.cur.execute('''
         INSERT INTO livros (titulo, autor, ano, disponivel) VALUES (?,?,?,?)''',
                          (
@@ -42,20 +41,25 @@ class LivroRepository():
                          ))
         self.conn.commit()
 
-    def atualizar(self,livro):
-        id = livro.id
-        if livro.disponivel:
-            self.cur.execute('''
-            UPDATE livros SET disponivel=False WHERE id=?
-            ''',(id,))
-        else:
-            self.cur.execute('''
-            UPDATE livros SET disponivel=True WHERE id=?
-            ''',(id,))
+    def atualizar_disponibilidade(self,livro: Livro) -> None:
+        if livro.id is None:
+            raise ValueError("Não é possível atualizar um livro sem ID.")
+        novo_status = not livro.disponivel
+
+        self.cur.execute(
+            """
+            UPDATE livros
+            SET disponivel = ?
+            WHERE id = ?
+            """,
+            (novo_status, livro.id)
+        )
+
         self.conn.commit()
 
-    def excluir(self, id):
+    def excluir(self, livro_id:int ) -> None:
         self.cur.execute('''
         DELETE FROM livros WHERE id = ?
-        ''', (id,))
+        ''', (livro_id,)
+        )
         self.conn.commit()

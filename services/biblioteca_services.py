@@ -5,40 +5,53 @@ from utils.exibicao import mostrar_dados
 
 class BibliotecaService:
 
-    def __init__(self, repository):
+    def __init__(self, repository:LivroRepository) -> None:
         self.repository = repository
 
-    def adicionar_livro(self):
-        titulo = input('Digite o nome do livro: ')
-        row = self.repository.existe_titulo(titulo)
-        if row is None:
-            autor = input('Digite o autor do livro: ')
-            try:
-                ano = int(input('Digite o ano de publicação do livro: '))
-            except ValueError:
-                print("Ano inválido. Por favor, insira um número inteiro.")
-                return
-            livro = Livro(
-                None,
-                titulo.lower(),
-                autor.lower(),
-                ano,
-                True
-            )
-            self.repository.inserir(livro)
-            print(f"Livro '{titulo}' adicionado com sucesso!")
-        else:
-            print("Este título já existe, tente novamente")
+    def adicionar_livro(self) -> None:
+        titulo = input("Digite o nome do livro: ").strip()
 
-    def catalogo_biblioteca(self):
-        lista = self.repository.listar_biblioteca()
-        if lista is not None:
-            for livro in lista:
-                mostrar_dados(livro)
-        else:
-            print("Não há nenhum livro na biblioteca")
+        if not titulo:
+            print("O título não pode ficar vazio.")
+            return
 
-    def buscar_livro(self):
+        if self.repository.existe_titulo(titulo):
+            print("Este título já existe. Tente novamente.")
+            return
+
+        autor = input("Digite o autor do livro: ").strip()
+
+        if not autor:
+            print("O autor não pode ficar vazio.")
+            return
+
+        try:
+            ano = int(input("Digite o ano de publicação do livro: "))
+        except ValueError:
+            print("Ano inválido. Insira um número inteiro.")
+            return
+
+        livro = Livro(
+            id = None,
+            titulo=titulo,
+            autor=autor,
+            ano=ano
+        )
+
+        self.repository.inserir(livro)
+        print(f"Livro '{titulo}' adicionado com sucesso!")
+
+    def catalogo_biblioteca(self) -> None:
+        livros = self.repository.listar_biblioteca()
+
+        if not livros:
+            print("Não há nenhum livro na biblioteca.")
+            return
+
+        for livro in livros:
+            mostrar_dados(livro)
+
+    def buscar_livro(self) -> None:
         busca = input("> ")
         livro = self.repository.buscar_titulo(busca)
         if livro is not None:
@@ -52,7 +65,7 @@ class BibliotecaService:
             print("Nenhum Livro encontrado")
             return
 
-    def emprestar_livro(self):
+    def emprestar_livro(self) -> None:
         busca = input("> ")
         livro = self.repository.buscar_titulo(busca)
         if livro is not None:
@@ -62,41 +75,60 @@ class BibliotecaService:
             if conf.lower() in ("s", "sim"):
                 if livro.disponivel:
                     print("Livro esta sendo preparado...")
-                    self.repository.atualizar(livro)
+                    self.repository.atualizar_disponibilidade(livro)
                     print("Livro emprestado. Boa Leitura!")
+                    return
                 else:
-                    print("Livro indisponível")
+                    print("Livro indisponível.")
+                    return
             else:
                 print("Retornando ao Menu...")
                 return
-
         else:
             print("Nenhum Livro encontrado")
+            return 
+
+    def devolver_livro(self) -> None:
+        busca = input("Título do livro: ")
+        livro = self.repository.buscar_titulo(busca)
+ 
+        if livro is None:
+            print("Nenhum livro encontrado.")
+            return
+ 
+        print("Resultado da busca:")
+        mostrar_dados(livro)
+ 
+        conf = input(f"Quer devolver o livro '{livro.titulo}'? ")
+    
+        if conf.lower() not in ("s", "sim"):
+            print("Retornando ao menu...")
+            return
+    
+        if livro.disponivel:
+            print("Este livro não foi emprestado.")
+            return
+    
+        print("Livro está sendo recolhido...")
+        self.repository.atualizar_disponibilidade(livro)
+        print("Livro devolvido. Espero que tenha tido uma excelente leitura.")
+
+    def excluir_livro(self) -> None:
+        titulo = input("Digite o nome do livro: ").strip()
+        livro = self.repository.buscar_titulo(titulo)
+
+        if livro is None:
+            print("Nenhum livro encontrado.")
             return
 
-    def devolver_livro(self):
-        busca = input("> ")
-        livro = self.repository.buscar_titulo(busca)
-        if livro is not None:
-            print("Resultado da busca: ")
-            mostrar_dados(livro)
-            conf = input(f"Quer devolver o livro {livro.titulo}? ")
-            if conf.lower() in ("s", "sim"):
-                if livro.disponivel:
-                    print("Livro esta sendo recolhido...")
-                    self.repository.atualizar(livro)
-                    print(
-                        "Livro devolvido. Espero que tenha tido uma excelente leitura.")
-                else:
-                    print("Este Livro não foi emprestado")
-            else:
-                print("Retornando ao Menu...")
-                return
-
-    def excluir_livro(self):
-        titulo = input('Digite o nome do livro: ')
-        livro = self.repository.buscar_titulo(titulo)
-        if livro is not None:
-            id = livro.id
-            self.repository.excluir(id)
-            print(f"Livro '{titulo}' excluído com sucesso!")
+        if livro.id is None:
+            raise ValueError("O livro não possui um ID válido.")
+        conf = input(f"Deseja excluir o livro '{livro.titulo}'? ")
+    
+        if conf.lower() not in ("s", "sim"):
+            print("Retornando ao menu...")
+            return
+        
+        livro_id = livro.id
+        self.repository.excluir(livro_id)
+        print(f"Livro '{livro.titulo}' excluído com sucesso!")

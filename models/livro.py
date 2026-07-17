@@ -1,14 +1,9 @@
-class Livro():
-    def __init__(
-            self,
-            id,
-            titulo,
-            autor,
-            ano,
-            disponivel
-    ):
-        self.id = id
-        self.titulo = titulo
-        self.autor = autor
-        self.ano = ano
-        self.disponivel = disponivel
+from dataclasses import dataclass
+@dataclass
+
+class Livro:
+        id: int | None
+        titulo: str
+        autor: str
+        ano: int
+        disponivel: bool = True
