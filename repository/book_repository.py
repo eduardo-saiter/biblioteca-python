@@ -8,10 +8,19 @@ class BookRepository:
         self.conn = conn
         self.cur = conn.cursor()
 
-    def list_libraly(self) -> list[Book]:
-        self.cur.execute('SELECT * FROM books')
+    def _row_to_book(self, row: tuple) -> Book:
+        return Book(
+        id=row[0],
+        title=row[1],
+        author=row[2],
+        year=row[3],
+        available=bool(row[4])
+    )
+
+    def list_library(self) -> list[Book]:
+        self.cur.execute('SELECT id, title, author, year, available FROM books')
         rows = self.cur.fetchall()
-        return [Book(*row) for row in rows]
+        return [self._row_to_book(row) for row in rows]
 
     def title_exists(self, user_search: str) -> bool:
         self.cur.execute('SELECT * FROM books WHERE title= ?',
@@ -30,7 +39,7 @@ class BookRepository:
         row = self.cur.fetchone()
         if row is None:
             return None
-        return Book(*row)
+        return self._row_to_book(row)
 
     def insert_book(self, book: Book) -> None:
         self.cur.execute('''
@@ -60,6 +69,7 @@ class BookRepository:
         self.conn.commit()
 
     def delete_book(self, book_id: int) -> None:
+
         self.cur.execute('''
         DELETE FROM books WHERE id = ?
         ''', (book_id,)

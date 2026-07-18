@@ -5,7 +5,7 @@ from database.database import (
 )
 
 from repository.book_repository import BookRepository
-from services.libraly_services import LibralyService
+from services.library_services import LibraryService
 from utils.exibicao import show_menu
 
 
@@ -17,7 +17,7 @@ def main() -> None:
         initialize_database(conn)
 
         repository = BookRepository(conn)
-        service = LibralyService(repository)
+        service = LibraryService(repository)
         while True:
 
             show_menu()
@@ -27,22 +27,42 @@ def main() -> None:
             try:
 
                 if option == "1":
-                    service.add_book()
+                    title = input("> ").strip()
+                    author = input("> ").strip()
+                    year = input("> ").strip()
+                    try:
+                        service.add_book(title,author,year)
+                        print(f"Livro '{title}' adicionado com sucesso!")
+                    except ValueError as e:
+                        print(e)
 
                 elif option == "2":
-                    service.catalog_libraly()
+                    service.catalog_library()
 
                 elif option == "3":
-                    service.search_book()
+                    user_search = input("> ")
+                    service.search_book(user_search)
 
                 elif option == '4':
-                    service.lend_book()
+                    user_search = input("> ")
+                    book = service.search_book(user_search)
+                    if book is not None:
+                        conf = input("> ")
+                        service.lend_book(book,conf)
 
                 elif option == '5':
-                    service.return_book()
+                    user_search = input("Título do livro: ")
+                    book = service.search_book(user_search)
+                    if book is not None:
+                        conf = input("> ")
+                        service.return_book(book, conf)
 
                 elif option == "6":
-                    service.delete_book()
+                    user_search = input("Digite o nome do livro: ").strip()
+                    book = service.search_book(user_search)
+                    if book is not None:
+                        conf = input("> ")
+                        service.delete_book(book, conf)
 
                 elif option == "7":
                     print("Saindo do sistema...")

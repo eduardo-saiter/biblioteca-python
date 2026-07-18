@@ -3,6 +3,7 @@ import sqlite3
 import pytest
 
 from repository.book_repository import BookRepository
+from services.library_services import LibraryService
 
 
 @pytest.fixture
@@ -11,12 +12,12 @@ def conn():
 
     conn.execute(
         """
-        CREATE TABLE livros (
+        CREATE TABLE books (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            titulo TEXT NOT NULL UNIQUE COLLATE NOCASE,
-            autor TEXT NOT NULL,
-            ano INTEGER NOT NULL,
-            disponivel INTEGER NOT NULL DEFAULT 1
+            title TEXT NOT NULL UNIQUE COLLATE NOCASE,
+            author TEXT NOT NULL,
+            year INTEGER NOT NULL,
+            available INTEGER NOT NULL DEFAULT 1
         )
         """
     )
@@ -29,3 +30,7 @@ def conn():
 @pytest.fixture
 def repository(conn):
     return BookRepository(conn)
+
+@pytest.fixture
+def service(repository):
+    return LibraryService(repository)
