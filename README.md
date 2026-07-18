@@ -1,144 +1,221 @@
-# 📚 Biblioteca
+# 📚 Biblioteca Python
 
-Sistema de gerenciamento de biblioteca desenvolvido em Python durante meus estudos do curso **Python for Everybody (Py4E)**.
+Sistema de gerenciamento de biblioteca executado no terminal, desenvolvido em Python com persistência em SQLite.
 
-O projeto evoluiu de uma aplicação baseada em JSON para uma arquitetura orientada a objetos utilizando **SQLite** para persistência dos dados.
+O projeto foi criado durante meus estudos de Python e evoluiu de uma aplicação simples para uma arquitetura em camadas, com separação entre modelo, acesso ao banco de dados e regras de negócio.
 
----
+## Status
 
-**Status:** 🚧 Em desenvolvimento
+**Versão atual:** 2.1.0  
+**Situação:** em desenvolvimento
 
----
+## Funcionalidades
 
-## 🚀 Funcionalidades
+- Cadastrar livros;
+- Listar o catálogo completo;
+- Buscar livros pelo título;
+- Emprestar livros disponíveis;
+- Registrar a devolução de livros;
+- Excluir livros do catálogo;
+- Impedir o cadastro de títulos duplicados;
+- Armazenar os dados em um banco SQLite;
+- Criar o banco de dados automaticamente na primeira execução;
+- Validar título, autor e ano;
+- Executar testes automatizados com pytest.
 
-- 📖 Cadastro de livros
-- 🔍 Busca por título
-- 📚 Listagem do catálogo
-- ✏️ Atualização de disponibilidade
-- 🗑️ Remoção de livros
-- 💾 Persistência em SQLite
-- 🧱 Arquitetura em camadas (Model, Repository e Service)
+## Tecnologias utilizadas
 
----
+- Python 3.10 ou superior;
+- SQLite;
+- `dataclasses`;
+- Programação Orientada a Objetos;
+- Pytest para testes automatizados.
 
-## 🏗️ Estrutura do projeto
+O programa principal utiliza apenas módulos da biblioteca padrão do Python. O Pytest é necessário somente para desenvolvimento e execução dos testes.
 
-```
+## Estrutura do projeto
+
+```text
 Biblioteca/
-│
 ├── database/
 │   ├── database.py
-│   └── biblioteca.db
-│
+│   └── library.db
 ├── models/
-│   └── livro.py
-│
+│   └── book.py
 ├── repository/
-│   └── livro_repository.py
-│
+│   ├── __init__.py
+│   └── book_repository.py
 ├── services/
-│   └── biblioteca_services.py
-│
+│   ├── __init__.py
+│   └── library_services.py
+├── testes/
+│   ├── conftest.py
+│   ├── test_book.py
+│   ├── test_book_repository.py
+│   └── test_library_services.py
 ├── utils/
+│   ├── __init__.py
 │   ├── exibicao.py
 │   ├── menu.py
 │   └── validacoes.py
-│
 ├── main.py
+├── requirements.txt
+├── requirements-dev.txt
 └── README.md
 ```
 
----
+## Arquitetura
 
-## 🛠️ Tecnologias utilizadas
+O projeto está dividido em responsabilidades:
 
-- Python 3
-- SQLite3
-- Programação Orientada a Objetos (OOP)
+- **Model:** representa a entidade `Book`;
+- **Repository:** executa as operações no banco de dados SQLite;
+- **Service:** concentra as regras de negócio da biblioteca;
+- **Database:** cria e fornece a conexão com o banco;
+- **Utils:** contém funções auxiliares de menu, validação e exibição;
+- **Main:** controla a interação com o usuário pelo terminal;
+- **Testes:** verificam o comportamento dos modelos, repositórios e serviços.
 
----
+## Como executar
 
-## ▶️ Como executar
-
-Clone o repositório:
+### 1. Clonar o repositório
 
 ```bash
 git clone https://github.com/eduardo-saiter/biblioteca-python.git
-```
-
-Entre na pasta:
-
-```bash
 cd biblioteca-python
 ```
 
-Execute:
+### 2. Criar um ambiente virtual
+
+No Linux ou macOS:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+No Windows PowerShell:
+
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+```
+
+### 3. Instalar as dependências
+
+A aplicação não possui dependências externas de execução. Para instalar as ferramentas de desenvolvimento:
+
+```bash
+python -m pip install -r requirements-dev.txt
+```
+
+### 4. Executar o programa
 
 ```bash
 python main.py
 ```
 
-Na primeira execução, o banco de dados será criado automaticamente caso não exista.
+Na primeira execução, o arquivo `database/library.db` será criado automaticamente, caso ainda não exista.
 
----
+## Menu do sistema
 
-## 📌 Arquitetura
+O programa permite selecionar operações como:
 
-O projeto foi dividido em responsabilidades:
+1. adicionar um livro;
+2. listar o catálogo;
+3. buscar um livro;
+4. emprestar um livro;
+5. devolver um livro;
+6. excluir um livro;
+7. sair do sistema.
 
-- **Model** → representa a entidade `Livro`
-- **Repository** → acesso ao banco de dados
-- **Service** → regras de negócio
-- **Utils** → menus e exibição
-- **Database** → conexão e inicialização do SQLite
+## Executando os testes
 
----
+Com o ambiente virtual ativado e as dependências de desenvolvimento instaladas, execute:
 
-## 📈 Evolução
+```bash
+python -m pytest -q
+```
 
-### ✅ v1.0.0
+No estado atual do projeto, a suíte possui **33 testes automatizados**.
 
-- Persistência em JSON
-- CRUD completo
-- Busca de livros
-- Empréstimo e devolução
+Para executar um arquivo específico:
 
-### 🚀 v2.0.0
+```bash
+python -m pytest testes/test_library_services.py -v
+```
 
-- Migração completa para SQLite
-- Introdução à Programação Orientada a Objetos
-- Criação da classe `Livro`
-- Separação em camadas (Repository / Service / Model)
-- Melhor organização do projeto
-- Banco criado automaticamente na inicialização
+Para executar somente um teste:
 
----
+```bash
+python -m pytest testes/test_library_services.py::nome_do_teste -v
+```
 
-## 🎯 Próximos objetivos (v2.1)
+## Banco de dados
 
-- Melhorar a validação de entradas
-- Retornar objetos `Livro` em todas as consultas
-- Permitir buscas mais avançadas
-- Refatoração de código e redução de duplicação
-- Testes automatizados
+A aplicação utiliza uma tabela chamada `books`, com os seguintes campos:
 
----
+| Campo | Tipo | Descrição |
+|---|---|---|
+| `id` | INTEGER | Identificador único do livro |
+| `title` | TEXT | Título único, sem diferenciar maiúsculas de minúsculas |
+| `author` | TEXT | Autor do livro |
+| `year` | INTEGER | Ano de publicação |
+| `available` | INTEGER | Disponibilidade do livro: `1` ou `0` no SQLite |
 
-## 📚 Aprendizados
+Ao transformar os registros do banco em objetos `Book`, o Repository converte o campo `available` para `bool`.
 
-Este projeto faz parte da minha jornada de estudos em Python e acompanha minha evolução durante o curso **Python for Everybody (Py4E)**.
+## Evolução do projeto
 
-O objetivo é aplicar na prática conceitos como:
+### v1.0.0
 
-- Programação Orientada a Objetos
-- SQLite
-- Organização de projetos
-- Boas práticas de desenvolvimento
-- Versionamento com Git e GitHub
+- Armazenamento em arquivo JSON;
+- Cadastro, busca e exclusão de livros;
+- Empréstimo e devolução;
+- Estruturas básicas de Python.
 
----
+### v2.0.0
 
-## 📄 Licença
+- Migração para SQLite;
+- Introdução à Programação Orientada a Objetos;
+- Criação da classe `Book`;
+- Separação entre Model, Repository e Service;
+- Inicialização automática do banco.
+
+### v2.1.0
+
+- Refatoração do Service para receber dados por parâmetros;
+- Separação entre entrada do usuário e regras de negócio;
+- Retorno de objetos `Book` nas buscas;
+- Conversão de valores do SQLite para booleanos;
+- Validações aprimoradas;
+- Testes automatizados com Pytest.
+
+## Próximos objetivos
+
+- Criar buscas parciais por título e autor;
+- Melhorar as mensagens e a interface do terminal;
+- Adicionar registro de usuários;
+- Registrar histórico de empréstimos;
+- Adicionar datas de empréstimo e devolução;
+- Ampliar a cobertura de testes;
+- Criar uma interface gráfica ou API.
+
+## Aprendizados
+
+Este projeto aplica conceitos como:
+
+- classes e objetos;
+- `dataclasses`;
+- type hints;
+- tratamento de exceções;
+- SQLite e comandos SQL;
+- arquitetura em camadas;
+- separação de responsabilidades;
+- injeção de dependência;
+- testes com fixtures e `capsys`;
+- Git e GitHub.
+
+## Licença
 
 Projeto desenvolvido para fins de estudo.

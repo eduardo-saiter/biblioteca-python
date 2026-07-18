@@ -1,2 +1,2 @@
-# Este projeto utiliza apenas módulos da biblioteca padrão do Python.
-# Não há dependências externas.
+# O sistema utiliza somente módulos da biblioteca padrão do Python.
+# Não há dependências externas necessárias para executar a aplicação.
