@@ -1,44 +1,47 @@
-from models.livro import Livro
+from models.book import Book
+
 
 def test_criar_livro():
-    livro = Livro(
+    livro = Book(
         id=1,
-        titulo="Python para Todos",
-        autor="Charles Severance",
+        title="Python para Todos",
+        author="Charles Severance",
         ano=2016,
-        disponivel=True
+        available=True
     )
 
     assert livro.id == 1
-    assert livro.titulo == "Python para Todos"
-    assert livro.autor == "Charles Severance"
+    assert livro.title == "Python para Todos"
+    assert livro.author == "Charles Severance"
     assert livro.ano == 2016
-    assert livro.disponivel is True
+    assert livro.available is True
+
 
 def test_livros_com_mesmos_dados_sao_iguais():
-    livro1 = Livro(
+    livro1 = Book(
         id=1,
-        titulo="Python",
-        autor="Charles",
+        title="Python",
+        author="Charles",
         ano=2016,
-        disponivel=True
+        available=True
     )
 
-    livro2 = Livro(
+    livro2 = Book(
         id=1,
-        titulo="Python",
-        autor="Charles",
+        title="Python",
+        author="Charles",
         ano=2016,
-        disponivel=True
+        available=True
     )
 
     assert livro1 == livro2
 
+
 def test_ano_do_livro():
-    livro = Livro(
+    livro = Book(
         id=1,
-        titulo="Python",
-        autor="Charles",
+        title="Python",
+        author="Charles",
         ano=2016
     )
 

@@ -2,7 +2,7 @@ import sqlite3
 
 import pytest
 
-from repository.livro_repository import LivroRepository
+from repository.book_repository import BookRepository
 
 
 @pytest.fixture
@@ -28,4 +28,4 @@ def conn():
 
 @pytest.fixture
 def repository(conn):
-    return LivroRepository(conn)
+    return BookRepository(conn)

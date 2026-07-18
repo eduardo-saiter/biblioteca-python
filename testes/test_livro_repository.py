@@ -1,12 +1,12 @@
-from models.livro import Livro
+from models.book import Book
 
 
 def test_inserir_livro(conn, repository):
 
-    livro = Livro(
+    livro = Book(
         id=None,
-        titulo="Python",
-        autor="Charles",
+        title="Python",
+        author="Charles",
         ano=2016
     )
 

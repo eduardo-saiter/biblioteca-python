@@ -1,64 +1,66 @@
 import sqlite3
 from database.database import (
-    inicializar_banco,
-    conectar
+    initialize_database,
+    connect
 )
 
-from repository.livro_repository import LivroRepository
-from services.biblioteca_services import BibliotecaService
-from utils.exibicao import mostrar_menu
+from repository.book_repository import BookRepository
+from services.libraly_services import LibralyService
+from utils.exibicao import show_menu
+
 
 def main() -> None:
-    conn = conectar()
+    conn = connect()
 
     try:
 
-        inicializar_banco(conn)
+        initialize_database(conn)
 
-        repositorio = LivroRepository(conn)
-        service = BibliotecaService(repositorio)
+        repository = BookRepository(conn)
+        service = LibralyService(repository)
         while True:
-        
-            mostrar_menu()
 
-            opcao = input("> ")
+            show_menu()
 
-            try:    
-            
-                if opcao == "1":
-                    service.adicionar_livro()
+            option = input("> ")
 
-                elif opcao == "2":
-                    service.catalogo_biblioteca()
+            try:
 
-                elif opcao == "3":
-                    service.buscar_livro()
+                if option == "1":
+                    service.add_book()
 
-                elif opcao == '4':
-                    service.emprestar_livro()
+                elif option == "2":
+                    service.catalog_libraly()
 
-                elif opcao == '5':
-                    service.devolver_livro()
+                elif option == "3":
+                    service.search_book()
 
-                elif opcao == "6":
-                    service.excluir_livro()
+                elif option == '4':
+                    service.lend_book()
 
-                elif opcao == "7":
+                elif option == '5':
+                    service.return_book()
+
+                elif option == "6":
+                    service.delete_book()
+
+                elif option == "7":
                     print("Saindo do sistema...")
                     break
-                
+
                 else:
                     print("Opção inválida. Tente novamente.")
 
-            except sqlite3.Error as erro:
+            except sqlite3.Error as error:
                 print("Erro ao acessar o banco de dados.")
-                print(f"Detalhes: {erro}")
+                print(f"Detalhes: {error}")
 
     except KeyboardInterrupt:
         print("\n Programa interrompido pelo usuário")
 
     finally:
         conn.close()
+
 
 if __name__ == '__main__':
     main()
