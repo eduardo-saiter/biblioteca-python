@@ -221,7 +221,7 @@ Este projeto aplica conceitos como:
 Neste projeto eu aprendi muito, estou satisfeito. 
 A fim de manter o nivel de aprendizado irei fechá-lo,
 com o intuíto de abrir outro e melhorar cada vez mais.
-Talvez eu volte para atualizado algum dia.
+Talvez eu volte para atualizá-lo algum dia.
 
 ## Licença
 
