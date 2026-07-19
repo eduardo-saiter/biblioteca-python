@@ -7,7 +7,7 @@ O projeto foi criado durante meus estudos de Python e evoluiu de uma aplicação
 ## Status
 
 **Versão atual:** 2.1.0  
-**Situação:** em desenvolvimento
+**Situação:** Finalizado
 
 ## Funcionalidades
 
@@ -215,6 +215,13 @@ Este projeto aplica conceitos como:
 - injeção de dependência;
 - testes com fixtures e `capsys`;
 - Git e GitHub.
+
+## Notas do Programador
+
+Neste projeto eu aprendi muito, estou satisfeito. 
+A fim de manter o nivel de aprendizado irei fechá-lo,
+com o intuíto de abrir outro e melhorar cada vez mais.
+Talvez eu volte para atualizado algum dia.
 
 ## Licença
 
